@@ -1,0 +1,17 @@
+import boto3
+names = {}
+ec2 = boto3.resource('ec2')
+def lambda_handler(event, context):
+    i = 0
+    for status in ec2.meta.client.describe_instance_status()['InstanceStatuses']:
+        names[i] = status
+        print(names[i])
+        print(names[i]['InstanceStatus']['Status'])
+        i = i+1
+        if names[i]['InstanceStatus']['Status'] == 'ok':
+            print "the names[i]['InstanceId'] status is ok"
+        else:
+            print "the names[i]['InstanceId'] status checks are failed"
+  
+
+print('its done')
